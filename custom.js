@@ -9,32 +9,32 @@ searchLetters.addEventListener("click", (e) => {
     e.preventDefault();
     //console.log(artista.value);
     //console.log(cancion.value);
-
     if (artista.value === "" || cancion.value === "") {
-        mostrarError("Ambos campos son necesarion...");
+        mostrarError("Ambos campos son obligatorios...");
         return;
     }
 
     callApiSong(artista.value, cancion.value);
-});
+})
 
 function callApiSong(artista, cancion){
     fetch(`https://api.lyrics.ovh/v1/${artista}/${cancion}`)
         .then(respuesta => respuesta.json())
         .then(resultado => {
+            //console.log(resultado);
             if (resultado.lyrics) {
                 const {lyrics} = resultado;
                 mostrarLetra(lyrics);
             } else {
-                mostrarError("La cancion no exsiste...");
+                mostrarError("La cancion no existe...");
             }
         })
         .catch(error => console.log(error));
 }
 
 function mostrarLetra(lyrics){
-    sideLetters.innerText = "";
-    const title =  document.createElement("h3");
+    sideLetters.innerHTML = "";
+    const title = document.createElement("h3");
     title.innerText = `${cancion.value} de: ${artista.value}`;
     sideLetters.appendChild(title);
 
@@ -43,13 +43,13 @@ function mostrarLetra(lyrics){
     sideLetters.appendChild(letra);
 }
 
-function mostrarError(mensage){
+function mostrarError(mensaje){
     const error = document.createElement("p");
-    error.classList.add("error-mensage");
-    error.innerText = mensage;
+    error.classList.add("error-mensaje");
+    error.innerText = mensaje;
 
     sideLeft.appendChild(error);
-    setTimeout(() =>{
+    setTimeout(() => {
         error.remove();
-    }, 2000)
+    }, 2000);
 }
